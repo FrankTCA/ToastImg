@@ -1,0 +1,109 @@
+body {
+    font-family: Calibri, Helvetica, sans-serif;
+}
+
+.container {
+    padding: 50px;
+    background-color: lightblue;
+}
+
+input[type=text], input[type=password], textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    background-color: orange;
+    outline: none;
+}
+
+div {
+    padding: 10px 0;
+}
+
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+.nullsubmitbtn {
+    background-color: #7FD383;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.6;
+}
+
+.submitbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+.submitbtn:hover {
+    opacity: 1;
+}
+
+.center {
+    justify-content: center;
+}
+
+p {
+    padding: 0 5px;
+    color: black;
+}
+
+.formInfo {
+    font-family: Consolas, Courier New, Courier, monospace;
+    padding: 10px 5px 20px 0;
+    color: black;
+}
+
+#status {
+    color: red;
+    font-family: Arial Black, Arial, sans-serif;
+    padding: 5px 20px 10px 0;
+}
+
+.invalidWarning {
+    color: red;
+    font-family: Arial Black, Arial, sans-serif;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr:hover {
+    background-color: coral;
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+th {
+    text-align: center;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+td {
+    text-align: center;
+    padding: 15px;
+}

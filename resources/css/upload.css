@@ -1,0 +1,19 @@
+.inline-block {
+    display: inline-block;
+}
+
+svg {
+    display: inline-block;
+}
+
+.above-block {
+    display: inline-block;
+}
+
+h1 {
+    font-family: "Arial Black", sans-serif;
+}
+
+p {
+    font-family: "Roboto Thin", sans-serif;
+}
