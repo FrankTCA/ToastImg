@@ -1,6 +1,7 @@
 <?php
 require "../creds.php";
 require "../../sso/common.php";
+require "common.php";
 validate_token("https://infotoast.org/img/action/delete.php");
 
 if (!isset($_GET["fname"])) {

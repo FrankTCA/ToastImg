@@ -17,6 +17,7 @@
  */
 require "../sso/common.php";
 require "creds.php";
+require "action/common.php";
 validate_token("https://infotoast.org/img/upload.php");
 
 if (!is_uploaded_file($_FILES["fileUpload"]["tmp_name"])) {
