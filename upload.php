@@ -22,6 +22,9 @@ validate_token("https://infotoast.org/img/upload.php");
 if (!is_uploaded_file($_FILES["fileUpload"]["tmp_name"])) {
     http_response_code(400);
     die("noinfo");
+} else if (!verify_file($_FILES["fileUpload"]["name"])) {
+    http_response_code(403);
+    die("<html><head><title>Bad file!</title><meta http-equiv='refresh' content='1,url=https://infotoast.org/img'></head><body><p>Bad file!</p><p>Only letters, numbers, underscores, dashes, and periods are allowed in the file name.</p></body></html>");
 }
 
 if (!isset($_POST["aka"])) {
