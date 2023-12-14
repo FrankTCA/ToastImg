@@ -122,3 +122,7 @@ text {
 #loginText {
     text-transform: capitalize;
 }
+
+.errorMsg {
+    color: red;
+}
