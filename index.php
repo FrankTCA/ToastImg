@@ -51,8 +51,11 @@ validate_token("https://infotoast.org/img/");
             </div>
             <div class="iconSet">
                 <form action="upload.php" enctype="multipart/form-data" method="POST">
-                    AKA Link (Optional): <input type="text" id="akaLink" name="akaLink">
-                    <input type="file" id="fileUpload" name="fileUpload" accept="audio/ogg,audio/wav,audio/webm,audio/mpeg,video/mpeg,video/mp4,video/webm,video/quicktime,image/gif,image/jpeg,image/png,image/svg+xml,image/tiff,image/webp">
+                    AKA Link (Optional): <input type="text" id="akaLink" name="aka"><br>
+                    <label for="images" class="drop" id="drop">
+                        <span>Drop files here</span>
+                        <input type="file" id="fileUpload" name="fileUpload" accept="audio/ogg,audio/wav,audio/webm,audio/mpeg,video/mpeg,video/mp4,video/webm,video/quicktime,image/gif,image/jpeg,image/png,image/svg+xml,image/tiff,image/webp" required>
+                    </label>
                     <input type="submit" id="submitButton">
                 </form>
             </div>
@@ -60,7 +63,7 @@ validate_token("https://infotoast.org/img/");
                 <h2>Your Files:</h2>
             </div>
             <div class="iconSet">
-                <table id="files">
+                <table id="files" width="100%">
                     <tr><th>Image</th><th>Name</th><th>Size</th><th>Time Uploaded</th><th>AKA Link</th><th>Open/Copy/Delete</th><th>Log</th></tr>
                 </table>
             </div>

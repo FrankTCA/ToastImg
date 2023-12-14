@@ -81,12 +81,12 @@ if ($result = $sql->get_result()) {
 }
 
 if (!file_exists("images/" . get_username())) {
-    mkdir("images/" . get_username(), '0770', true);
+    mkdir("images/" . get_username());
 }
 
 $file_name = $_FILES["fileUpload"]["name"];
 move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "images/" . get_username() . "/" . $file_name);
-$sql2 = $conn->prepare("INSERT INTO files (user_id, user_name, file_name, access_id, file_size, mime_type, file_url, aka) VALUES (?, ?, SHA2(224, ?), ?, ?, ?, ?);");
+$sql2 = $conn->prepare("INSERT INTO files (user_id, user_name, file_name, access_id, file_size, mime_type, file_url, aka) VALUES (?, ?, ?, SHA2(?, 224), ?, ?, ?, ?);");
 $uid = get_user_id();
 $uname = get_username();
 $fname = $file_name;

@@ -23,7 +23,7 @@ $sql->execute();
 $conn->commit();
 
 $username = get_username();
-$file_path = "images/" . $username . "/" . $_GET["fname"];
+$file_path = "../images/" . $username . "/" . $_GET["fname"];
 if (file_exists($file_path)) {
     $size = filesize($file_path);
     for ($i = 0; $i < 5; $i++) {

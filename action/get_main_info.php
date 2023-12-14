@@ -41,7 +41,7 @@ for ($i = 0; $i < sizeof($files); $i++) {
     if ($i > 0) {
         echo ", ";
     }
-    $aka_info = (is_null($files[$i]->get_aka)) ? "null" : "\"" . $files[$i]->get_aka() . "\"";
+    $aka_info = (is_null($files[$i]->get_aka())) ? "null" : "\"" . $files[$i]->get_aka() . "\"";
     echo "{\"id\": " . $files[$i]->get_id() . ", \"name\": \"" . $files[$i]->get_file_name() . "\", \"access_id\": \"" .
         $files[$i]->get_access_id() . "\", \"size\": " . $files[$i]->get_file_size() . ", \"type\": \"" . $files[$i]->get_mime_type() .
         "\", \"timestamp\": \"" . $files[$i]->get_timestamp() . "\", \"aka\": " . $aka_info . "}";

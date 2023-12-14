@@ -1,8 +1,8 @@
-var files = {};
+var files = [];
 
 function get_file_by_id(id) {
     for (var i = 0; i < files.length; i++) {
-        if (files.id === id) {
+        if (files[i].id === id) {
             return files[i];
         }
     }
@@ -57,12 +57,14 @@ function display_file(id) {
     let file = get_file_by_id(id);
     let readableSizeNum = file.size / 1000000;
     let readableSize = readableSizeNum.toString() + " MB";
-    let akaLink = (file.aka == null) ? "<i>None</i>" : "<input type='text' id='aka_'" + file.id + " name='aka_'" + file.id + " value='" + file.aka + "'><button onclick='copy_aka(" + file.id + ");'>📋</button>";
-    $("#files").append("<tr id='file_" + id + "'><td><a href='img.php?f=" + file.access_id + "' target='_blank'><img src='img.php?fname=" + file.name + "' width='32' height='32'></a></td><td>" + file.name + "</td><td>" + readableSize + "</td><td>" + file.timestamp + "</td><td>" + akaLink + "</td><td><a href='img.php?f=" + file.access_id + "' target='_blank'><button class='taskbtn'>🖼️</button></a><button class='taskbtn' onclick='copy_link(" + task.id + ")'>📋</button><button class='taskbtn' onclick='delete_file(" + id + ");'>🗑️</button></td><td><a href='moreinfo.php?file=" + file.name + "'>More Info</a></td></tr>");
+    let akaLink = (file.aka == null) ? "<i>None</i>" : "<input type='text' id='aka_" + file.id + "' name='aka_" + file.id + "' value='infoaka.me/" + file.aka + "' width='70%' style='display: inline-block'><button onclick='copy_aka(" + file.id + ");' style='display: inline-block'>📋</button>";
+    $("#files").append("<tr id='file_" + id + "'><td><a href='img.php?f=" + file.access_id + "' target='_blank'><img src='img.php?fname=" + file.name + "' width='64' height='64'></a></td><td>" + file.name + "</td><td>" + readableSize + "</td><td>" + file.timestamp + "</td><td>" + akaLink + "</td><td><a href='img.php?f=" + file.access_id + "' target='_blank'><button class='taskbtn'>🖼️</button></a><button class='taskbtn' onclick='copy_link(" + file.id + ")'>📋</button><button class='taskbtn' onclick='delete_file(" + id + ");'>🗑️</button></td><td><a href='moreinfo.php?file=" + file.name + "'>More Info</a></td></tr>");
 }
 $(document).ready(function() {
+    $("#submitButton").hide();
     $("#copy").hide();
     $.get("action/get_main_info.php", function(data, status) {
+        console.log(data);
         if (data.startsWith("dbconn")) {
             $(".errorMsg").text("ERROR: Could not connect to database! Please contact frank@infotoast.org if the problem persists after a refresh.");
         } else if (data.startsWith("{")) {
@@ -72,7 +74,7 @@ $(document).ready(function() {
                 value: percentUsed
             });
             for (var i = 0; i < jsonData.files.length; i++) {
-                files.append({
+                files.push({
                     id: jsonData.files[i].id,
                     name: jsonData.files[i].name,
                     access_id: jsonData.files[i].access_id,
@@ -82,7 +84,34 @@ $(document).ready(function() {
                     aka: jsonData.files[i].aka
                 });
                 display_file(jsonData.files[i].id);
+                console.log(files);
             }
         }
     });
+
+    $("#fileUpload").change(function() {
+        $("#submitButton").show().click().hide();
+    });
+
+    const drop = $("#drop")
+    const fileInput = $("#fileUpload")
+
+    drop.addEventListener("dragover", (e) => {
+        // prevent default to allow drop
+        e.preventDefault()
+    }, false)
+
+    dropContainer.addEventListener("dragenter", () => {
+        dropContainer.classList.add("drag-active")
+    })
+
+    dropContainer.addEventListener("dragleave", () => {
+        dropContainer.classList.remove("drag-active")
+    })
+
+    dropContainer.addEventListener("drop", (e) => {
+        e.preventDefault()
+        dropContainer.classList.remove("drag-active")
+        fileInput.files = e.dataTransfer.files
+    })
 });

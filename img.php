@@ -22,7 +22,7 @@ if (isset($_GET["f"])) {
             $sql2 = $conn->prepare("INSERT INTO image_access_log (image_id, ip, user_agent, country) VALUES (?, ?, ?, ?);");
             $iid = $row['id'];
             $user_ip = getUserIP();
-            $user_agent = $_SERVER["http_user_agent"];
+            $user_agent = $_SERVER["HTTP_USER_AGENT"];
             $user_country = $_SERVER['HTTP_CF_IPCOUNTRY'];
             $sql2->bind_param('isss', $iid, $user_ip, $user_agent, $user_country);
             $sql2->execute();
