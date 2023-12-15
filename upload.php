@@ -114,10 +114,12 @@ if ($aka !== null) {
         }
     }
 
-    $_POST["name"] = $aka;
-    $_POST["url"] = "https://infotoast.org/img/img.php?f=" . $access_id;
-    $_POST["called_from"] = true;
-    require "../aka/php/action_mklink.php";
+    if ($_POST["name"] != "") {
+        $_POST["name"] = $aka;
+        $_POST["url"] = "https://infotoast.org/img/img.php?f=" . $access_id;
+        $_POST["called_from"] = true;
+        require "../aka/php/action_mklink.php";
+    }
 }
 
 $conn->close();
