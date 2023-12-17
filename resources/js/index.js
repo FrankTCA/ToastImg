@@ -57,8 +57,16 @@ function display_file(id) {
     let file = get_file_by_id(id);
     let readableSizeNum = file.size / 1000000;
     let readableSize = readableSizeNum.toString() + " MB";
+    var imagePreview = "";
+    if (file.type.startsWith("audio")) {
+        imagePreview = "<img alt='Audio File' src='resources/img/MusicIcon.webp' width='64px' height='64px'>";
+    } else if (file.type.startsWith("video")) {
+        imagePreview = "<img alt='Video File' src='resources/img/VideoIcon.webp' width='64px' height='64px'>";
+    } else {
+        imagePreview = "<img alt='Picture' src='img.php?fname=" + file.name + "' width='64px' height='64px'>"
+    }
     let akaLink = (file.aka == null) ? "<i>None</i>" : "<input type='text' id='aka_" + file.id + "' name='aka_" + file.id + "' value='infoaka.me/" + file.aka + "' width='70%' style='display: inline-block'><button onclick='copy_aka(" + file.id + ");' style='display: inline-block'>📋</button>";
-    $("#files").append("<tr id='file_" + id + "'><td><a href='img.php?f=" + file.access_id + "' target='_blank'><img src='img.php?fname=" + file.name + "' width='64' height='64'></a></td><td>" + file.name + "</td><td>" + readableSize + "</td><td>" + file.timestamp + "</td><td>" + akaLink + "</td><td><a href='img.php?f=" + file.access_id + "' target='_blank'><button class='taskbtn'>🖼️</button></a><button class='taskbtn' onclick='copy_link(" + file.id + ")'>📋</button><button class='taskbtn' onclick='delete_file(" + id + ");'>🗑️</button></td><td><a href='moreinfo.php?file=" + file.name + "'>More Info</a></td></tr>");
+    $("#files").append("<tr id='file_" + id + "'><td><a href='img.php?f=" + file.access_id + "' target='_blank'>" + imagePreview + "</a></td><td>" + file.name + "</td><td>" + readableSize + "</td><td>" + file.timestamp + "</td><td>" + akaLink + "</td><td><a href='img.php?f=" + file.access_id + "' target='_blank'><button class='taskbtn'>🖼️</button></a><button class='taskbtn' onclick='copy_link(" + file.id + ")'>📋</button><button class='taskbtn' onclick='delete_file(" + id + ");'>🗑️</button></td><td><a href='moreinfo.php?file=" + file.name + "'>More Info</a></td></tr>");
 }
 $(document).ready(function() {
     $("#submitButton").hide();
