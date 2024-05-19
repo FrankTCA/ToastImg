@@ -6,6 +6,31 @@ if (!isset($_GET["f"]) && !isset($_GET["fname"])) {
     die("Didn't get enough info!");
 }
 
+function download_file($filename, $chunksize) {
+    if (file_exists($filename)) {
+        set_time_limit(600);
+        $size = intval(sprintf("%u", filesize($filename)));
+
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: '.$size);
+        if ($size > $chunksize) {
+            $handler = fopen($filename, "rb");
+
+            while (!feof($handler)) {
+                print(@fread($handler, $chunksize));
+
+                ob_flush();
+                flush();
+            }
+
+            fclose($handler);
+        }
+    } else {
+        $file_data = file_get_contents($filename);
+        echo $file_data;
+    }
+}
+
 if (isset($_GET["f"])) {
     $conn = mysqli_connect(get_database_host(), get_database_username(), get_database_password(), get_database_db());
     if ($conn->connect_error) {
@@ -26,8 +51,9 @@ if (isset($_GET["f"])) {
             $user_country = $_SERVER['HTTP_CF_IPCOUNTRY'];
             $sql2->bind_param('isss', $iid, $user_ip, $user_agent, $user_country);
             $sql2->execute();
-            $image_data = file_get_contents("images/" . $row["user_name"] . "/" . $row["file_name"]);
-            echo $image_data;
+            $filename = "images/" . $row["user_name"] . "/" . $row["file_name"];
+            $chunksize = 5 * (1024 * 1024);
+            download_file($filename, $chunksize);
             $conn->close();
             exit;
         }
@@ -36,6 +62,9 @@ if (isset($_GET["f"])) {
     die("ERROR: File not found.");
 } else if (isset($_GET["fname"])) {
     validate_token("https://infotoast.org/aka/img.php");
-    $image_data = file_get_contents("images/" . get_username() . "/" . $_GET["fname"]);
-    echo $image_data;
+    $filename = "images/" . get_username() . "/" . $_GET["fname"];
+    $chunksize = 5 * (1024 * 1024);
+    download_file($filename, $chunksize);
 }
+
+
