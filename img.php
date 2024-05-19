@@ -24,10 +24,12 @@ function download_file($filename, $chunksize) {
             }
 
             fclose($handler);
+        } else {
+            readfile($filename);
         }
     } else {
-        $file_data = file_get_contents($filename);
-        echo $file_data;
+        http_response_code(410);
+        die("Content deleted or file not found!");
     }
 }
 
