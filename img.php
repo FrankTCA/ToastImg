@@ -1,31 +1,51 @@
 <?php
 require "../sso/common.php";
 require "creds.php";
+require "action/common.php";
 if (!isset($_GET["f"]) && !isset($_GET["fname"])) {
     http_response_code(400);
     die("Didn't get enough info!");
 }
 
-function download_file($filename, $chunksize) {
+function download_file_checked($filename, $chunksize): void {
+    set_time_limit(600);
+    $size = intval(sprintf("%u", filesize($filename)));
+
+    header('Content-Transfer-Encoding: binary');
+    header('Content-Length: '.$size);
+    if ($size > $chunksize) {
+        $handler = fopen($filename, "rb");
+
+        while (!feof($handler)) {
+            print(@fread($handler, $chunksize));
+
+            ob_flush();
+            flush();
+        }
+
+        fclose($handler);
+    } else {
+        readfile($filename);
+    }
+}
+
+function download_file($filename, $chunksize, $small, $smallCacheFile=null): void {
     if (file_exists($filename)) {
-        set_time_limit(600);
-        $size = intval(sprintf("%u", filesize($filename)));
-
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: '.$size);
-        if ($size > $chunksize) {
-            $handler = fopen($filename, "rb");
-
-            while (!feof($handler)) {
-                print(@fread($handler, $chunksize));
-
-                ob_flush();
-                flush();
+        if ($small) {
+            if (file_exists($smallCacheFile)) {
+                download_file_checked($smallCacheFile, $chunksize);
+            } else {
+                $extension = pathinfo($filename, PATHINFO_EXTENSION);
+                $resized_image = resize_image($filename, $extension, 64, 64);
+                if ($resized_image == null) {
+                    download_file_checked($filename, $chunksize);
+                } else {
+                    save_image($resized_image, $smallCacheFile, $extension);
+                    download_file_checked($smallCacheFile, $chunksize);
+                }
             }
-
-            fclose($handler);
         } else {
-            readfile($filename);
+            download_file_checked($filename, $chunksize);
         }
     } else {
         http_response_code(410);
@@ -55,7 +75,7 @@ if (isset($_GET["f"])) {
             $sql2->execute();
             $filename = "images/" . $row["user_name"] . "/" . $row["file_name"];
             $chunksize = 5 * (1024 * 1024);
-            download_file($filename, $chunksize);
+            download_file($filename, $chunksize, false);
             $conn->close();
             exit;
         }
@@ -65,8 +85,12 @@ if (isset($_GET["f"])) {
 } else if (isset($_GET["fname"])) {
     validate_token("https://infotoast.org/aka/img.php");
     $filename = "images/" . get_username() . "/" . $_GET["fname"];
+    $filenameCache = "images/" . get_username() . "/small/" . $_GET["fname"];
     $chunksize = 5 * (1024 * 1024);
-    download_file($filename, $chunksize);
+    if (!file_exists("images/" . get_username() . "/small")) {
+        mkdir("images/" . get_username() . "/small");
+    }
+    download_file($filename, $chunksize, true, $filenameCache);
 }
 
 
