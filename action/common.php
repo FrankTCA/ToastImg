@@ -16,6 +16,8 @@ function resize_image($file, $ext, $w, $h) {
         $image = imagecreatefromgif($file);
     } else if ($ext == "webp") {
         $image = imagecreatefromwebp($file);
+    } else if ($ext == "avif") {
+        $image = imagecreatefromavif($file);
     } else {
         return null;
     }

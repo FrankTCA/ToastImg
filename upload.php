@@ -35,7 +35,7 @@ if (!isset($_POST["aka"])) {
 }
 
 $mime_type = mime_content_type($_FILES["fileUpload"]["tmp_name"]);
-$allowed_file_types = ["audio/ogg", "audio/wav", "video/mp4", "audio/mpeg", "video/mpeg", "video/mp4", "video/webm", "video/quicktime", "image/gif", "image/jpeg", "image/png", "image/svg+xml", "image/tiff", "image/webp"];
+$allowed_file_types = ["audio/ogg", "audio/wav", "video/mp4", "audio/mpeg", "video/mpeg", "video/mp4", "video/webm", "video/quicktime", "image/gif", "image/jpeg", "image/png", "image/svg+xml", "image/tiff", "image/webp", "image/avif"];
 if (!in_array($mime_type, $allowed_file_types)) {
     http_response_code(403);
     die("invalidmime");
